@@ -25,7 +25,7 @@ final class AppTests: XCTestCase {
     }
     
     func testTodoIndex() async throws {
-        let sampleTodos = [Todo(title: "sample1"), Todo(title: "sample2")]
+        let sampleTodos = [Product(title: "sample1"), Product(title: "sample2")]
         try await sampleTodos.create(on: self.app.db)
         
         try await self.app.test(.GET, "todos", afterResponse: { res async throws in
@@ -44,18 +44,18 @@ final class AppTests: XCTestCase {
             try req.content.encode(newDTO)
         }, afterResponse: { res async throws in
             XCTAssertEqual(res.status, .ok)
-            let models = try await Todo.query(on: self.app.db).all()
+            let models = try await Product.query(on: self.app.db).all()
             XCTAssertEqual(models.map { $0.toDTO().title }, [newDTO.title])
         })
     }
     
     func testTodoDelete() async throws {
-        let testTodos = [Todo(title: "test1"), Todo(title: "test2")]
+        let testTodos = [Product(title: "test1"), Product(title: "test2")]
         try await testTodos.create(on: app.db)
         
         try await self.app.test(.DELETE, "todos/\(testTodos[0].requireID())", afterResponse: { res async throws in
             XCTAssertEqual(res.status, .noContent)
-            let model = try await Todo.find(testTodos[0].id, on: self.app.db)
+            let model = try await Product.find(testTodos[0].id, on: self.app.db)
             XCTAssertNil(model)
         })
     }

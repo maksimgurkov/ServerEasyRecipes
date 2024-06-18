@@ -12,18 +12,23 @@ final class Product: Model, @unchecked Sendable {
 
     @Field(key: "title")
     var title: String
+    
+    @Field(key: "image")
+    var image: String
 
     init() { }
 
-    init(id: UUID? = nil, title: String) {
+    init(id: UUID? = nil, title: String, image: String) {
         self.id = id
         self.title = title
+        self.image = image
     }
     
     func toDTO() -> TodoDTO {
         .init(
             id: self.id,
-            title: self.$title.value
+            title: self.$title.value ?? "",
+            image: self.$image.value ?? ""
         )
     }
 }

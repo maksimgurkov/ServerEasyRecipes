@@ -14,7 +14,7 @@ struct TodoController: RouteCollection {
 
     @Sendable
     func index(req: Request) async throws -> [TodoDTO] {
-        try await Todo.query(on: req.db).all().map { $0.toDTO() }
+        try await Product.query(on: req.db).all().map { $0.toDTO() }
     }
 
     @Sendable
@@ -27,7 +27,7 @@ struct TodoController: RouteCollection {
 
     @Sendable
     func delete(req: Request) async throws -> HTTPStatus {
-        guard let todo = try await Todo.find(req.parameters.get("todoID"), on: req.db) else {
+        guard let todo = try await Product.find(req.parameters.get("todoID"), on: req.db) else {
             throw Abort(.notFound)
         }
 

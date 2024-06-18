@@ -3,15 +3,16 @@ import Vapor
 
 struct TodoDTO: Content {
     var id: UUID?
-    var title: String?
+    var title: String
+    var image: String
     
-    func toModel() -> Todo {
-        let model = Todo()
+    func toModel() -> Product {
+        let model = Product()
         
         model.id = self.id
-        if let title = self.title {
-            model.title = title
-        }
+        model.title = self.title
+        model.image = self.image
+        
         return model
     }
 }
